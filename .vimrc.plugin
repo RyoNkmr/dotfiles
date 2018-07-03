@@ -51,34 +51,82 @@ let g:racer_experimental_completer = 1
 let g:clever_f_use_migemo = 1
 
 " Denite
-if executable('rg')
-  call denite#custom#var('file_rec', 'command',
-        \ ['rg', '--files', '--glob', '!.git'])
-  call denite#custom#var('grep', 'command', ['rg', '--threads', '1'])
-  call denite#custom#var('grep', 'recursive_opts', [])
-  call denite#custom#var('grep', 'final_opts', [])
-  call denite#custom#var('grep', 'separator', ['--'])
-  call denite#custom#var('grep', 'default_opts',
-        \ ['--vimgrep', '--no-heading'])
-else
-  call denite#custom#var('file_rec', 'command',
-        \ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
-endif
-
+" if executable('rg')
+"   call denite#custom#var('file_rec', 'command',
+"         \ ['rg', '--files', '--glob', '!.git'])
+"   call denite#custom#var('grep', 'command', ['rg', '--threads', '1'])
+"   call denite#custom#var('grep', 'recursive_opts', [])
+"   call denite#custom#var('grep', 'final_opts', [])
+"   call denite#custom#var('grep', 'separator', ['--'])
+"   call denite#custom#var('grep', 'default_opts',
+"         \ ['--vimgrep', '--no-heading'])
+" else
+"   call denite#custom#var('file_rec', 'command',
+"         \ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
+" endif
+"
+"
+" call denite#custom#source('file_old', 'matchers',
+"       \ ['matcher_fuzzy', 'matcher_project_files'])
+" call denite#custom#source('tag', 'matchers', ['matcher_substring'])
+" if has('nvim')
+"   call denite#custom#source('file_rec,grep', 'matchers',
+"         \ ['matcher_cpsm'])
+" endif
+" call denite#custom#source('file_old', 'converters',
+"       \ ['converter_relative_word'])
+"
+" call denite#custom#map('insert', '<C-r>',
+"       \ '<denite:toggle_matchers:matcher_substring>', 'noremap')
+" call denite#custom#map('insert', '<C-s>',
+"       \ '<denite:toggle_sorters:sorter_reverse>', 'noremap')
+" call denite#custom#map('insert', '<C-j>',
+"       \ '<denite:move_to_next_line>', 'noremap')
+" call denite#custom#map('insert', '<C-k>',
+"       \ '<denite:move_to_previous_line>', 'noremap')
+" call denite#custom#map('insert', "'",
+"       \ '<denite:move_to_next_line>', 'noremap')
+" call denite#custom#map('normal', 'r',
+"       \ '<denite:do_action:quickfix>', 'noremap')
+" call denite#custom#map('insert', ';',
+"       \ 'vimrc#sticky_func()', 'expr')
+"
+" call denite#custom#alias('source', 'file_rec/git', 'file_rec')
+" call denite#custom#var('file_rec/git', 'command',
+"       \ ['git', 'ls-files', '-co', '--exclude-standard'])
+"
+" call denite#custom#option('default', {
+"       \ 'auto_accel': v:true,
+"       \ 'prompt': '>',
+"       \ 'source_names': 'short',
+"       \ })
+" call denite#custom#filter('matcher_ignore_globs', 'ignore_globs',
+"       \ [ '.git/', '.ropeproject/', '__pycache__/',
+"       \   'venv/', 'images/', '*.min.*', 'img/', 'fonts/'])
+" call denite#custom#action('file', 'buffer',
+"       \ {context -> denite#do_action(context, 'open', context['targets'])})
 call denite#custom#map('insert', '<C-j>', '<denite:move_to_next_line>')
 call denite#custom#map('insert', '<C-k>', '<denite:move_to_previous_line>')
+call denite#custom#source(
+\ 'file', 'sorters', ['sorter/word'])
 
-nmap ,ub :Denite -buffer-name=files -mode=normal buffer <return>
-nmap ,uh :Denite file_mru  -mode=normal<return>
-nmap ,ug :Denite -auto-preview grep -mode=normal<return>
-nmap ,uf :DeniteBufferDir -buffer-name=files -mode=normal file<return>
-nmap ,up :DeniteProjectDir file_rec -path=<return>
-nmap ,uw :<C-u>DeniteCursorWord -buffer-name=search
-        \ -auto-highlight -mode=normal line<return>
-nmap ,uc :Denite -auto-preview colorscheme<return>
-nmap ,us :Denite grep:. -buffer-name=search-buffer -mode=normal<return>
-nmap ,ur :Denite -resume -mode=normal<return>
-nnoremap ,ue :Denite file_rec/async:!<return>
+" nmap ,ub :Denite -buffer-name=files -mode=normal -direction=topleft buffer <return>
+" nmap ,uh :Denite file_mru -mode=normal -direction=topleft<return>
+" nmap ,ug :Denite -auto-preview grep -mode=normal -direction=topleft<return>
+nmap ,ud :DeniteBufferDir -buffer-name=files -mode=normal -direction=topleft file file:new<return>
+" nmap ,up :DeniteProjectDir file_rec -direction=topleft -path=<return>
+" nmap ,uw :<C-u>DeniteCursorWord -buffer-name=search
+"         \ -auto-highlight -mode=normal line -direction=topleft<return>
+" nmap ,uc :Denite -auto-preview colorscheme -direction=topleft<return>
+" nmap ,us :Denite grep:. -buffer-name=search-buffer -mode=normal -direction=topleft<return>
+" nmap ,ur :Denite -resume -mode=normal -direction=topleft<return>
+" nnoremap ,ue :Denite -direction=topleft file_rec/async:!<return>
+
+"Unite
+
+nmap ,uu :UniteWithBufferDir -buffer-name=files file file/new <return>
+" let g:unite_enable_ignore_case = 1
+" let g:unite_enable_smart_case = 1
 
 " incsearch
 map / <Plug>(incsearch-forward)
@@ -184,24 +232,24 @@ let g:previm_open_cmd = 'open -a Google\ Chrome'
 " Unite-rails.vim
 "------------------------------------
 "{{{
-function! UniteRailsSetting()
-  nnoremap <buffer><C-H><C-H><C-H>  :<C-U>Unite rails/view<CR>
-  nnoremap <buffer><C-H><C-H>       :<C-U>Unite rails/model<CR>
-  nnoremap <buffer><C-H>            :<C-U>Unite rails/controller<CR>
-
-  nnoremap <buffer><C-H>c           :<C-U>Unite rails/config<CR>
-  nnoremap <buffer><C-H>s           :<C-U>Unite rails/spec<CR>
-  nnoremap <buffer><C-H>m           :<C-U>Unite rails/db -input=migrate<CR>
-  nnoremap <buffer><C-H>l           :<C-U>Unite rails/lib<CR>
-  nnoremap <buffer><expr><C-H>g     ':e '.b:rails_root.'/Gemfile<CR>'
-  nnoremap <buffer><expr><C-H>r     ':e '.b:rails_root.'/config/routes.rb<CR>'
-  nnoremap <buffer><expr><C-H>se    ':e '.b:rails_root.'/db/seeds.rb<CR>'
-  nnoremap <buffer><C-H>ra          :<C-U>Unite rails/rake<CR>
-  nnoremap <buffer><C-H>h           :<C-U>Unite rails/heroku<CR>
-endfunction
-aug MyAutoCmd
-  au User Rails call UniteRailsSetting()
-aug END
+" function! UniteRailsSetting()
+"   nnoremap <buffer><C-H><C-H><C-H>  :<C-U>Unite rails/view<CR>
+"   nnoremap <buffer><C-H><C-H>       :<C-U>Unite rails/model<CR>
+"   nnoremap <buffer><C-H>            :<C-U>Unite rails/controller<CR>
+"
+"   nnoremap <buffer><C-H>c           :<C-U>Unite rails/config<CR>
+"   nnoremap <buffer><C-H>s           :<C-U>Unite rails/spec<CR>
+"   nnoremap <buffer><C-H>m           :<C-U>Unite rails/db -input=migrate<CR>
+"   nnoremap <buffer><C-H>l           :<C-U>Unite rails/lib<CR>
+"   nnoremap <buffer><expr><C-H>g     ':e '.b:rails_root.'/Gemfile<CR>'
+"   nnoremap <buffer><expr><C-H>r     ':e '.b:rails_root.'/config/routes.rb<CR>'
+"   nnoremap <buffer><expr><C-H>se    ':e '.b:rails_root.'/db/seeds.rb<CR>'
+"   nnoremap <buffer><C-H>ra          :<C-U>Unite rails/rake<CR>
+"   nnoremap <buffer><C-H>h           :<C-U>Unite rails/heroku<CR>
+" endfunction
+" aug MyAutoCmd
+"   au User Rails call UniteRailsSetting()
+" aug END
 "}}}
 
 "------------------------------------
