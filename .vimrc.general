@@ -4,6 +4,11 @@ filetype off
 filetype plugin on
 
 colorscheme molokai
+set statusline+=%#warningmsg#
+set statusline+=%*
+
+set lazyredraw
+
 set guifont=Ricty_Diminished:h10
 set backspace=indent,eol,start
 set background=dark
@@ -14,6 +19,7 @@ set visualbell t_vb=
 set clipboard=unnamed
 set virtualedit=block
 set autoread
+set autochdir
 set nobackup
 set noswapfile
 set hlsearch
@@ -44,9 +50,8 @@ set pumheight=10
 set showmatch
 set matchtime=1
 
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+set synmaxcol=256
+syntax sync minlines=256
 
 " gf
 set includeexpr=substitute(v:fname,'$','.ts','')
@@ -66,9 +71,9 @@ nmap j gj
 nmap k gk
 nmap > >>
 nmap < <<
-"buffer next
+
+"switching an active buffer
 nmap <S-k> :bn <return>
-"buffer previous
 nmap <S-j> :bp <return>
 "
 " clear highlights after search
@@ -89,7 +94,7 @@ vmap > >gv
 vmap < <gv
 
 " [jj] - back to normal mode
-imap <silent> jj <ESC>
+" imap <silent> jj <ESC>
 
 " [Y] - yank current line
 nnoremap Y y$
@@ -102,12 +107,52 @@ nnoremap - <C-x>
 nnoremap <Leader>l :nohlsearch<cr>:diffupdate<cr>:syntax sync fromstart<cr><c-l>
 
 " open .vimrc
-nnoremap \eg :edit ~/.vimrc.general<cr>
-nnoremap \ep :edit ~/.vimrc.plug<cr>
-nnoremap \el :edit ~/.vimrc.plugin<cr>
+nnoremap ,eg :edit ~/.vimrc.general<cr>
+nnoremap ,ep :edit ~/.vimrc.plug<cr>
+nnoremap ,el :edit ~/.vimrc.plugin<cr>
 
-autocmd BufNewFile,BufRead *.vue set filetype=html
+autocmd FileType vue syntax sync fromstart
+autocmd FileType netrw setl bufhidden=wipe
+autocmd BufNewFile,BufRead *.vue setlocal filetype=vue.html.javascript.css
 autocmd BufNewFile,BufRead *.ts set filetype=typescript
 autocmd BufNewFile,BufRead *.tsx set filetype=typescript
 
+" syntax .ejs
+autocmd BufNewFile,BufRead *.ejs set filetype=ejs
+autocmd BufNewFile,BufRead *._ejs set filetype=ejs
+
+function! s:DetectEjs()
+    if getline(1) =~ '^#!.*\<ejs\>'
+        set filetype=ejs
+    endif
+endfunction
+
+autocmd BufNewFile,BufRead * call s:DetectEjs()
+" -----------------------------------------
+
 nnoremap ,sc :<C-u>SyntasticCheck<CR>
+set redrawtime=10000
+
+filetype plugin indent on
+
+command! OpenBrowserCurrent execute "OpenBrowser" expand("%:p")
+
+command! -nargs=? -complete=dir -bang CD  call s:ChangeCurrentDir('<args>', '<bang>')
+function! s:ChangeCurrentDir(directory, bang)
+    if a:directory == ''
+        lcd %:p:h
+    else
+        execute 'lcd' . a:directory
+    endif
+
+    if a:bang == ''
+        pwd
+    endif
+endfunction
+
+" Change current directory.
+nnoremap <silent> <Space>cd :<C-u>CD<CR>
+
+" split pane
+nnoremap <silent> <Space>ss :split<CR>
+nnoremap <silent> <Space>sv :vsplit<CR>

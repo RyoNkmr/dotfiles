@@ -1,21 +1,26 @@
 # Usage
+## Requirements
+
+- zsh
+- vim8
+- python3
 
 1. Install homebrew  
-``` ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" ```  
-or http://brew.sh/
-1. Install git if you not installed it yet  
-``` brew install git ```
+```$ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" ```  
+or go http://brew.sh/
+1. Install git if you've not installed it yet  
+```$ brew install git ```
 1. Install homesick  
-``` sudo gem install homesick ```
+```$ sudo gem install homesick ```
 1. Clone dotfiles repository  
-``` homesick clone https://github.com/lyan-/dotfiles.git ~/dotfiles ```
+```$ homesick clone https://github.com/lyan-/dotfiles.git ~/dotfiles ```
 1. Press the command ``` sh ~/dotfiles/init.sh ```
 
 ## option
 
 1. Install zsh via homebrew
 ```
-brew install zsh
+$ brew install zsh
 ```
 
 ## Set zsh as login shell
@@ -27,7 +32,7 @@ Append a following line in **/etc/shells**
 
 Then, exec change shell command
 ```
-chsh -s /usr/local/bin/zsh
+$ chsh -s /usr/local/bin/zsh
 ```
 
 ## Zplug
@@ -38,41 +43,63 @@ if zsh throws errors like 'no such directory or file .zplug'
 
 ### or... Install zplug via homebrew
 ```
-brew install zplug
+$ brew install zplug
 ```
 
 ## Z
 
-1. ``` brew install z```
+1. ```$ brew install z```
+1. ```$ mkdir .cache/shell```
+1. ```$ j A_PART_OF_DIRECTORY_NAME```
+1. no need for more ```cd```, never.
+
+## Peco 
+
+1. ```$ brew install peco```
+2. Let you do ```C+r```
 
 # Vim...
 
-1. ``` vim ```
+1. ``` $ vim ```
 2. ``` :PlugInstall ```
 3. Done
 
 >Requirements: the NEW vim with lua (so this is not preinstalled on macOSX)
 
 ## how replace the old vim with the new one -with-lua
-1. ``` brew install lua ```
-2. ``` brew reinstall vim --with-lua ```
+1. ```$ brew install lua ```
+2. ```$ brew reinstall vim --with-lua ```
 3. Done
 
+## Install the Font
+[RictyDiminished-for-Powerline by mzyy94](https://github.com/mzyy94/RictyDiminished-for-Powerline)
+
+## Fasten KeyRepeat / InitialKeyRepeat
+
+```
+$ defaults write NSGlobalDomain InitialKeyRepeat -int 15
+$ defaults write -g KeyRepeat -int 1
+```
+
 ## markdown viewer for vim
-```npm -g install instant-markdown-d```
+```$ npm -g install instant-markdown-d```
 https://github.com/suan/vim-instant-markdown
 
+## Python
+2. Install zsh via homebrew
+```
+$ brew install zsh
+```
 
 # Setting Tmux
 
-1. Clone TPM:
-    $ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+1. Clone TPM: ```$ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm```
 
-2. Press `prefix + I` to install tmux-plugins
+2. launch tmux session, `prefix + I` to install tmux-plugins
 
 ## other requirements(some plugins)
-1. ``` brew install w3m ```
 1. ``` brew install reattach-to-user-namespace```
+1. ~~``` brew install w3m ```~~
 
 ---
 
@@ -85,7 +112,7 @@ https://github.com/suan/vim-instant-markdown
 - **f** : open current directory in Finder
 - **cdf** : cd to current directory in active Finder
 - **z [fuzzy word]** : cd to matching dir with [fuzzy word] from history
-- **j** : alias for z
+- **j** : alias of z
 - **la** : ls -la
 - **be** : bundle exec(Rails)
 
@@ -94,16 +121,14 @@ https://github.com/suan/vim-instant-markdown
 
 ## Vim
 
-### Unite Commands
+### Denite Commands
 
-- **,ue** : Unite file_rec/async:!
-- **,ub** : Unite buffer
-- **,uh** : Unite file_mru
-- **,ul** : Unite locate
-- **,uf** : UniteWithBufferDir -buffer-name=files file file/new
-- **,uc** : Unite -auto-preview colorscheme
-- **,us** : Unite grep:. -buffer-name=search-buffer
-- **,ur** : UniteResume
+- **,ub** :buffer
+- **,uh** :file_mru
+- **,uf** :-buffer-name=files file
+- **,uc** :-auto-preview colorscheme
+- **,us** :grep:. -buffer-name=search-buffer
+- **,ur** :resume
 
 #### Unite Rails Commands
 - nnoremap \<buffer>\<C-H>\<C-H>\<C-H>  :<C-U>Unite rails/view<CR>
@@ -142,7 +167,7 @@ https://github.com/suan/vim-instant-markdown
 
 ### Utilities
 
-- **jj** : change to Normal mode(alias \<esc>)
+- **jj** : change to Normal mode(\<esc> alias)
 - **Y** : yank a line
 - **+** : incriment(alias \<C-a>)
 - **-** : decrement(alias \<C-x>)

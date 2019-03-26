@@ -7,15 +7,11 @@ export LC_CTYPE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
 # エディタ
-export EDITOR=/usr/local/bin/vim
+export EDITOR=/usr/local/bin/nvim
 
 # ページャ
 export PAGER=/usr/local/bin/vimpager
 export MANPAGER=/usr/local/bin/vimpager
-
-# POWERLINE
-export POWERLINE_CONFIG_COMMAND="/usr/local/bin/powerline-config"
-export POWERLINE_COMMAND=powerline
 
 # -------------------------------------
 # zshのオプション
@@ -87,25 +83,38 @@ path=(
     $path
 )
 
+export PATH="$HOME/.anyenv/bin:$PATH"
+
 # node
 export PATH=$HOME/.nodebrew/current/bin:$PATH
 export PATH=$HOME/.nodebrew/current/npm/bin:$PATH
 export PATH=$HOME/.npm/bin:$PATH
-
-# ruby
-export RBENV_ROOT=/usr/local/rbenv
-export PATH=$RBENV_ROOT/.rbenv/bin:$HOME/local/bin:$PATH
+export PATH=$HOME/.local/bin:$PATH
+export PATH=$HOME/.tmux/bin:$PATH
 
 # golang
+export GOPATH=$HOME/go
+export PATH="$GOPATH/bin:$PATH"
 export PATH=/usr/local/opt/go/libexec/bin:$PATH
 
 # PHP
 export PATH=$HOME/.composer/vendor/bin:$PATH
 
 # Python
-export WORKON_HOME=$HOME/.virtualenvs
-source /usr/local/bin/virtualenvwrapper.sh
+export PATH=$HOME/Library/Python/2.7/bin:$PATH
 
+# Rust
+export PATH=$HOME/.cargo/bin:$PATH
+export RUST_SRC_PATH=$HOME/.multirust/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src
+
+# gettext
+export PATH=/usr/local/opt/gettext/bin:$PATH
+
+# Sqlite
+export PATH=/usr/local/opt/sqlite/bin:$PATH
+
+# Deno
+export PATH=$HOME/.deno/bin:$PATH
 
 # -------------------------------------
 # プロンプト
@@ -144,7 +153,7 @@ NG="X_X "
 
 PROMPT=""
 PROMPT+="%(?.%F{green}$OK%f.%F{red}$NG%f) "
-PROMPT+="%F{blue}%~%f"
+PROMPT+="%K{blue}%~%k"
 PROMPT+="\$(vcs_prompt_info)"
 PROMPT+="
 "
@@ -169,6 +178,20 @@ function prompt()
 # -------------------------------------
 # エイリアス
 # -------------------------------------
+# Outputs the name of the current branch
+# Usage example: git pull origin $(git_current_branch)
+# Using '--quiet' with 'symbolic-ref' will not cause a fatal error (128) if
+# it's not a symbolic ref, but in a Git repo.
+function git_current_branch() {
+  local ref
+  ref=$(command git symbolic-ref --quiet HEAD 2> /dev/null)
+  local ret=$?
+  if [[ $ret != 0 ]]; then
+    [[ $ret == 128 ]] && return  # no git repo.
+    ref=$(command git rev-parse --short HEAD 2> /dev/null) || return
+  fi
+  echo ${ref#refs/heads/}
+}
 
 # -n 行数表示, -I バイナリファイル無視, svn関係のファイルを無視
 alias grep="grep --color -n -I --exclude='*.svn-*' --exclude='entries' --exclude='*/cache/*'"
@@ -183,25 +206,36 @@ alias l1="ls -1"
 # tree
 alias tree="tree -NC" # N: 文字化け対策, C:色をつける
 
+alias gmom="git fetch && git merge origin/master"
 alias gmod="git fetch && git merge origin/develop"
 alias gpor="git push origin `git rev-parse --abbrev-ref HEAD`"
+alias gpuo="git push --set-upstream origin"
+alias gpuc="git push --set-upstream origin `git_current_branch`"
 alias chrome="open -a Google\ Chrome"
 alias finder="open -a Finder"
 alias atom="open -a Atom"
 
-alias vi="/usr/local/bin/vim"
+alias vi="/usr/local/bin/nvim"
 
 #ruby bundler
 alias be="bundle exec"
 alias bi="bundle install"
 
 #util
-alias up="cd ..; ls -l"
+alias groot="cd ./$(git rev-parse --show-cdup)"
 alias f="open ."
 alias u="cd ~"
 alias p="cd ~/Projects"
 
 alias j="z"
+
+# chrome
+if [ `uname` = "Darwin" ]; then
+  alias google-chrome='open -a Google\ Chrome'
+fi
+alias chrome='google-chrome'
+
+alias -s html=chrome
 
 # -------------------------------------
 # エイリアス
@@ -312,6 +346,7 @@ zstyle ':completion:*' recent-dirs-insert both
 zstyle ':completion:*' use-cache true
 zstyle ':completion:*' completer _complete _expand _match _prefix _list _history _approximate
 zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' '+m:{A-Z}={a-z}'
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 
 zstyle ':chpwd:*' recent-dirs-max 5000
 zstyle ':chpwd:*' recent-dirs-default true
@@ -344,6 +379,9 @@ function vcs_echo {
 PROMPT='
 %F{yellow}[%~]%f `vcs_echo`
 %(?.$.%F{red}$%f) '
+
+export LSCOLORS=gxfxcxdxbxegedabagacad
+export LS_COLORS='di=36:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43'
 
 # Generate a new Jekyll post
 #
@@ -401,6 +439,21 @@ alias -g T='| tail'
 alias -g S='| sed'
 alias -g C='| cat'
 
-eval "$(rbenv init -)"
+eval "$(anyenv init -)"
 eval "$(direnv hook zsh)"
-# test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+# https://github.com/tmuxinator/tmuxinator
+source ~/.bin/tmuxinator.zsh
+
+function rust_run() {
+  rustc $1
+  local binary=$(basename $1 .rs)
+  ./$binary
+}
+
+alias rsrun='rust_run'
+
+# for neovim
+export XDG_CONFIG_HOME=~/.config
