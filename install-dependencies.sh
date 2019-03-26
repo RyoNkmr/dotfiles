@@ -1,3 +1,9 @@
+# install xcode-select
+xcode-select --install
+
+# homebrew
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
 # neovim
 brew install --HEAD neovim
 pip install --upgrade pynvim

@@ -445,7 +445,7 @@ eval "$(direnv hook zsh)"
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 # https://github.com/tmuxinator/tmuxinator
-source ~/.bin/tmuxinator.zsh
+# # source ~/.bin/tmuxinator.zsh
 
 function rust_run() {
   rustc $1
