@@ -20,3 +20,5 @@ sh ~/dotfiles/install-dependencies.sh
 mkdir -p ~/.config
 ln -s ~/.vim ~/.config/nvim
 ln -s ~/.vimrc ~/.config/nvim/init.vim
+
+ln -s ~/dotfiles/.ignore ~/.config/.ignore
