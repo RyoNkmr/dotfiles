@@ -105,7 +105,7 @@ function! Flatten(list)
 endfunction
 
 " Denite
-let s:ignore_globs = ['.git/', '.ropeproject/', '__pycache__/', 'node_modules/', 'venv/', 'images/', '*.min.*', 'img/', 'fonts/']
+let s:ignore_globs = ['.git/', '.ropeproject/', '__pycache__/', 'node_modules/', 'venv/', 'images/', '*.min.*', 'img/']
 if executable('rg')
   call denite#custom#var('file/rec', 'command',
         \ ['rg', '--files', '--glob', '!.git']
@@ -400,6 +400,7 @@ let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
 let g:ale_fix_on_save = 1
 let g:ale_lint_on_enter = 0
 let g:ale_lint_on_text_changed = 'never'
+let g:ale_completion_enabled = 1
 
 let g:airline#extensions#ale#open_lnum_symbol = '('
 let g:airline#extensions#ale#close_lnum_symbol = ')'
@@ -421,6 +422,7 @@ let g:ale_fixers = {
       \   'vue': ['prettier', 'eslint'],
       \   'ruby': ['rubocop'],
       \   'go': ['goimports'],
+      \   'markdown': ['prettier']
       \}
 
 let g:lightline = {

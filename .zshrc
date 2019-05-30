@@ -22,7 +22,7 @@ autoload -U compinit
 compinit
 
 ## 入力しているコマンド名が間違っている場合にもしかして：を出す。
-setopt correct
+unsetopt correct
 
 # ビープを鳴らさない
 setopt nobeep
@@ -457,3 +457,4 @@ alias rsrun='rust_run'
 
 # for neovim
 export XDG_CONFIG_HOME=~/.config
+export PATH="/usr/local/opt/gettext/bin:$PATH"

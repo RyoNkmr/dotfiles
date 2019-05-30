@@ -37,13 +37,14 @@ call plug#begin('~/.vim/plugged')
   Plug 'jason0x43/vim-js-indent', { 'for': ['javascript', 'vue'] }
   Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
   Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
-  " Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
+  Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
   Plug 'pangloss/vim-javascript', { 'for': ['javascript', 'vue'] }
   " Plug 'briancollins/vim-jst'
   Plug 'digitaltoad/vim-pug', { 'for': ['pug', 'vue', 'jade'] }
   " Plug 'bendavis78/vim-polymer'
   Plug 'jwalton512/vim-blade'
   Plug 'leafgarland/typescript-vim', { 'for': ['typescript', 'vue'] }
+  Plug 'Quramy/tsuquyomi'
   Plug 'nikvdp/ejs-syntax', { 'for': 'ejs' }
   " Plug 'flowtype/vim-flow'
   Plug 'parkr/vim-jekyll'
@@ -57,6 +58,8 @@ call plug#begin('~/.vim/plugged')
   " Operators
   Plug 'kana/vim-operator-user'
   Plug 'kana/vim-operator-replace'
+
+  Plug 'zerowidth/vim-copy-as-rtf'
 
   " For coding
   Plug 'vim-scripts/matchit.zip'
@@ -76,7 +79,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'haya14busa/incsearch-fuzzy.vim'
   Plug 'haya14busa/incsearch-migemo.vim', { 'do': 'brew install cmigemo' }
   Plug 'haya14busa/incsearch-easymotion.vim'
-  Plug 'tpope/vim-rails'
+  " Plug 'tpope/vim-rails'
   Plug 'posva/vim-vue'
 
   " indent guides
@@ -123,7 +126,6 @@ call plug#begin('~/.vim/plugged')
 
   " Other
   Plug 'airblade/vim-rooter'
-  Plug 'suan/vim-instant-markdown'
   Plug 'mattn/webapi-vim'
   Plug 'kannokanno/previm'
   Plug 'tyru/open-browser.vim'
