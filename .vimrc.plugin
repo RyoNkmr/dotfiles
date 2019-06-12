@@ -105,13 +105,13 @@ function! Flatten(list)
 endfunction
 
 " Denite
-let s:ignore_globs = ['.git/', '.ropeproject/', '__pycache__/', 'node_modules/', 'venv/', 'images/', '*.min.*', 'img/']
+let s:ignore_globs = ['.git/', '.ropeproject/', '__pycache__/', 'node_modules/', 'venv/', 'images/', '*.min.*', 'img/', 'fonts/']
+let s:ag_ignore_globs = Flatten(map(deepcopy(s:ignore_globs), { k, v -> ['-g', '!' . v] }))
 if executable('rg')
   call denite#custom#var('file/rec', 'command',
-        \ ['rg', '--files', '--glob', '!.git']
-        \ + Flatten(map(deepcopy(s:ignore_globs), { k, v -> ['-g', '!' . v] }))
-        \)
-  call denite#custom#var('grep', 'command', ['rg', '--threads', '1'])
+        \ ['rg', '--files', '--hidden'] + s:ag_ignore_globs )
+  call denite#custom#var('grep', 'command',
+        \ ['rg', '--threads', '1', '--hidden'] + s:ag_ignore_globs)
   call denite#custom#var('grep', 'recursive_opts', [])
   call denite#custom#var('grep', 'final_opts', [])
   call denite#custom#var('grep', 'separator', ['--'])

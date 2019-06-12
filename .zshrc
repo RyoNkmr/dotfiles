@@ -74,6 +74,8 @@ REPORTTIME=3
 # export PATH=$PATH:$M2_HOME/bin 
 
 # 重複する要素を自動的に削除
+eval "$(anyenv init -)"
+
 typeset -U path cdpath fpath manpath
 
 path=(
@@ -86,14 +88,13 @@ path=(
 export PATH="$HOME/.anyenv/bin:$PATH"
 
 # node
-export PATH=$HOME/.nodebrew/current/bin:$PATH
-export PATH=$HOME/.nodebrew/current/npm/bin:$PATH
 export PATH=$HOME/.npm/bin:$PATH
 export PATH=$HOME/.local/bin:$PATH
 export PATH=$HOME/.tmux/bin:$PATH
 
 # golang
 export GOPATH=$HOME/go
+export PATH="$GOROOT/bin:$PATH"
 export PATH="$GOPATH/bin:$PATH"
 export PATH=/usr/local/opt/go/libexec/bin:$PATH
 
@@ -439,7 +440,6 @@ alias -g T='| tail'
 alias -g S='| sed'
 alias -g C='| cat'
 
-eval "$(anyenv init -)"
 eval "$(direnv hook zsh)"
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
@@ -458,3 +458,22 @@ alias rsrun='rust_run'
 # for neovim
 export XDG_CONFIG_HOME=~/.config
 export PATH="/usr/local/opt/gettext/bin:$PATH"
+
+# git
+function git_ci() {
+  git rev-parse --show-toplevel | awk -F '/' -v 'OFS=/' '{print $6,$7}' | xargs -IREPO echo https://circleci.com/api/v1.1/project/github/REPO/tree/$(git branch --contains | cut -b 3-)?circle-token=$CIRCLECI_API_TOKEN | xargs curl -sS | jq ".[0].build_url" | xargs open;
+}
+
+alias -g gci='git_ci'
+
+function open_pr {
+  hub browse -- `git log --merges --oneline --reverse --ancestry-path $1...master | grep 'Merge pull request #' | head -n 1 | cut -f5 -d' ' | sed -e 's%#%pull/%'`;
+}
+
+alias -g openpr='open_pr'
+
+function git_delete_squashed {
+  git checkout -q master && git for-each-ref refs/heads/ "--format=%(refname:short)" | while read branch; do mergeBase=$(git merge-base master $branch) && [[ $(git cherry master $(git commit-tree $(git rev-parse $branch\^'{'tree'}') -p $mergeBase -m _)) == "-"* ]] && git branch -D $branch; done
+}
+
+alias -g gds='git_delete_squashed'
