@@ -84,9 +84,8 @@ let g:EasyMotion_use_smartsign_us = 1
 
 " racer-rust
 
-set hidden
-let g:racer_cmd = "$HOME/.cargo/bin/racer"
-let g:racer_experimental_completer = 1
+" let g:racer_cmd = "$HOME/.cargo/bin/racer"
+" let g:racer_experimental_completer = 1
 
 " clever-f
 let g:clever_f_use_migemo = 1
@@ -135,21 +134,6 @@ endif
 call denite#custom#source('file_old', 'converters',
       \ ['converter_relative_word'])
 
-call denite#custom#map('insert', '<C-r>',
-      \ '<denite:toggle_matchers:matcher_substring>', 'noremap')
-call denite#custom#map('insert', '<C-s>',
-      \ '<denite:toggle_sorters:sorter_reverse>', 'noremap')
-call denite#custom#map('insert', '<C-j>',
-      \ '<denite:move_to_next_line>', 'noremap')
-call denite#custom#map('insert', '<C-k>',
-      \ '<denite:move_to_previous_line>', 'noremap')
-call denite#custom#map('insert', "'",
-      \ '<denite:move_to_next_line>', 'noremap')
-call denite#custom#map('normal', 'r',
-      \ '<denite:do_action:quickfix>', 'noremap')
-call denite#custom#map('insert', ';',
-      \ 'vimrc#sticky_func()', 'expr')
-
 call denite#custom#alias('source', 'file/rec/git', 'file/rec')
 call denite#custom#var('file/rec/git', 'command',
       \ ['git', 'ls-files', '-co', '--exclude-standard'])
@@ -159,30 +143,52 @@ call denite#custom#option('default', {
       \ 'prompt': '>',
       \ 'source_names': 'short',
       \ })
-call denite#custom#option('_', 'highlight_mode_insert', 'CursorLine')
 call denite#custom#option('_', 'highlight_matched_range', 'None')
 call denite#custom#option('_', 'highlight_matched_char', 'None')
 call denite#custom#filter('matcher/ignore_globs', 'ignore_globs', s:ignore_globs)
 call denite#custom#action('file', 'buffer',
       \ {context -> denite#do_action(context, 'open', context['targets'])})
-call denite#custom#map('insert', '<C-j>', '<denite:move_to_next_line>')
-call denite#custom#map('insert', '<C-k>', '<denite:move_to_previous_line>')
-call denite#custom#map('normal', '<C-Space>', '<denite:toggle_select_up>', 'noremap')
+
+" Define mappings
+autocmd FileType denite call s:denite_my_settings()
+function! s:denite_my_settings() abort
+  nnoremap <silent><buffer><expr> <CR>
+  \ denite#do_map('do_action')
+  nnoremap <silent><buffer><expr> d
+  \ denite#do_map('do_action', 'delete')
+  nnoremap <silent><buffer><expr> p
+  \ denite#do_map('do_action', 'preview')
+  nnoremap <silent><buffer><expr> q
+  \ denite#do_map('quit')
+  nnoremap <silent><buffer><expr> i
+  \ denite#do_map('open_filter_buffer')
+  nnoremap <silent><buffer><expr> <Space>
+  \ denite#do_map('toggle_select').'j'
+  nnoremap <silent><buffer><expr><C-j>
+  \ denite#do_map('move_to_next_line')
+  nnoremap <silent><buffer><expr><C-k>
+  \ denite#do_map('move_to_previous_line')
+  nnoremap <silent><buffer><expr><C-r>
+  \ denite#do_map('change_matchers:matcher_substring')
+  nnoremap <silent><buffer><expr><C-s>
+  \ denite#do_map('change_sorters:sorter_reverse')
+endfunction
+
 call denite#custom#source(
 \ 'file', 'sorters', ['sorter/word'])
 
-nmap ,ub :Denite -buffer-name=files -mode=normal -direction=topleft buffer <return>
-nmap ,uh :Denite file_mru -mode=normal -direction=topleft<return>
-nmap ,uf :DeniteBufferDir -buffer-name=files -mode=normal -direction=topleft file file:new<return>
-nmap ,uj :DeniteProjectDir file/rec -direction=topleft -path=<return>
-nmap ,ug :DeniteProjectDir grep -mode=normal -direction=topleft -buffer-name=projectGrep<return>
+nmap ,ub :Denite -buffer-name=files -direction=topleft buffer <return>
+nmap ,uh :Denite file_mru -direction=topleft<return>
+nmap ,uf :DeniteBufferDir -buffer-name=files -direction=topleft file file:new<return>
+nmap ,uj :DeniteProjectDir file/rec -start-filter -direction=topleft -path=<return>
+nmap ,ug :DeniteProjectDir grep -direction=topleft -buffer-name=projectGrep<return>
 nmap ,uw :DeniteProjectDir grep -input=`expand('<cword>')` -buffer-name=search
-        \ -mode=normal -direction=topleft<return>
+        \ -direction=topleft<return>
 " nmap ,uw :<C-u>DeniteCursorWord -buffer-name=search
-"         \ -auto-highlight -mode=normal line -direction=topleft<return>
+"         \ -auto-highlight line -direction=topleft<return>
 nmap ,uc :Denite -auto-preview colorscheme -direction=topleft<return>
 " nmap ,us :cd %:h
-"         \ :Denite grep:. -buffer-name=search-buffer -mode=normal -direction=topleft<return>
+"         \ :Denite grep:. -buffer-name=search-buffer -direction=topleft<return>
 " nnoremap ,ue :Denite -direction=topleft file_rec/async:!<return>
 nnoremap <silent> ft :<C-u>Denite filetype -direction=topleft<return>
 
@@ -378,7 +384,6 @@ let g:airline_symbols.readonly = ''
 let g:airline_symbols.linenr = '☰'
 let g:airline_symbols.maxlinenr = ''
 
-"------------------------------------
 " tmuxline
 "------------------------------------
 let g:tmuxline_preset = {
@@ -401,7 +406,10 @@ let g:ale_fix_on_save = 1
 let g:ale_lint_on_enter = 0
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_completion_enabled = 1
+set omnifunc=ale#completion#OmniFunc
 
+" Set this. Airline will handle the rest.
+let g:airline#extensions#ale#enabled = 1
 let g:airline#extensions#ale#open_lnum_symbol = '('
 let g:airline#extensions#ale#close_lnum_symbol = ')'
 
@@ -416,8 +424,19 @@ let g:ale_keep_list_window_open = 0
 
 let g:ale_javascript_prettier_use_local_config = 1
 
+" Run both javascript and vue linters for vue files.
+let g:ale_linter_aliases = {'vue': ['vue', 'javascript']}
+let g:ale_linters = {
+      \ 'html': [],
+      \ 'css': ['stylelint'],
+      \ 'javascript': ['eslint'],
+      \ 'typescript': ['tsserver', 'eslint'],
+      \ 'vue': ['eslint', 'vls']
+      \}
+
 let g:ale_fixers = {
       \   'javascript': ['prettier', 'eslint'],
+      \   'php': ['prettier'],
       \   'typescript': ['prettier', 'eslint'],
       \   'vue': ['prettier', 'eslint'],
       \   'ruby': ['rubocop'],
@@ -437,8 +456,42 @@ let g:lightline = {
       \  'ale': 'ALEGetStatusLine'
       \}
       \}
-nnoremap <C-a><C-f> :ALEFix<CR>
 
+nnoremap <C-a><C-f> :ALEFix<CR>
+set signcolumn=yes
+
+"------------------------------------
+" mhartington/nvim-typescript
+"------------------------------------
+" let g:nvim_typescript#vue_support = 1
+"
+"------------------------------------
+" vim-vue
+"------------------------------------
+
+let g:vue_disable_pre_processors = 1
+autocmd FileType vue syntax sync fromstart
+
+"------------------------------------
+" LanguageClient-neovim 
+"------------------------------------
+"
+let g:LanguageClient_serverCommands = {
+    \ 'vue': ['vls'],
+    \ 'html': [],
+    \ 'css': [],
+    \ 'javascript': ['javascript-typescript-stdio'],
+    \ 'typescript': ['javascript-typescript-stdio'],
+    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+    \ }
+
+let g:LanguageClient_autoStart = 1
+
+"------------------------------------
+" vim-over
+"------------------------------------
+nnoremap <silent> <Space>// :OverCommandLine<CR>%s/
+"
 "------------------------------------
 " vim-go
 "------------------------------------
@@ -458,6 +511,9 @@ let g:switch_custom_definitions =
   \   ['hoge', 'fuga', 'piyo'],
   \   ['foo', 'bar', 'baz'],
   \   {
+  \     '\<[a-z0-9]\+-\k\+\>': {
+  \       '-\(.\)': '_\l\1'
+  \     },
   \     '\<[a-z0-9]\+_\k\+\>': {
   \       '_\(.\)': '\U\1'
   \     },
@@ -466,7 +522,7 @@ let g:switch_custom_definitions =
   \     },
   \     '\<[A-Z][a-z0-9]\+[A-Z]\k\+\>': {
   \       '\<\([A-Z]\)': '\l\1',
-  \       '\([a-z0-9]\)\([A-Z]\)': '\1_\l\2'
+  \       '\([a-z0-9]\)\([A-Z]\)': '\1-\l\2'
   \     },
   \   }
   \ ]
@@ -474,3 +530,37 @@ let g:switch_custom_definitions =
 map R <Plug>(operator-replace)
 
 " let g:python3_host_prog = system('type pyenv &>/dev/null && echo -n "$(pyenv root)/versions/$(cat $(pyenv root)/version | head -n 1)/bin/python" || echo -n $(which python)')
+au FileType go nmap <silent> <leader>at :GoAddTags<CR>
+au FileType go nmap <silent> <leader>rt :GoRemoveTags<CR>
+au FileType go nmap <silent> <leader>kf :GoKeyify<CR>
+au FileType go nmap <silent> <leader>ie :GoIfErr<CR>
+au FileType go nmap <silent> <leader>ip :GoImpl<CR>
+au FileType go nmap <silent> <leader>if :GoImplements<CR>
+au FileType go nmap <silent> <leader>mv :GoRename<CR>
+au FileType go nmap <silent> <leader>gd :GoDef<CR>
+
+"------------------------------------
+" swap colors
+"------------------------------------
+command! -nargs=0 SwapColor call s:SwapColor()
+function! s:SwapColor()
+  let l:cword = expand('<cword>')
+  if l:cword =~? '#\%(\x\{6}\X\?\|\x\{3}\X\?\)'
+    call ConvertColorTo('rgb')
+  else
+    call ConvertColorTo('hex')
+  endif
+endfunction
+
+nnoremap <silent> cs :SwapColor<CR>
+
+"------------------------------------
+" vim-rust
+"------------------------------------
+let g:rustfmt_autosave = 1
+
+"------------------------------------
+" RLS
+"------------------------------------
+autocmd BufReadPost *.rs setlocal filetype=rust
+set hidden

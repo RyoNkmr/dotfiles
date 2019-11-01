@@ -23,37 +23,42 @@ call plug#begin('~/.vim/plugged')
 
   " Syntax
   Plug 'w0rp/ale'
-  Plug 'autozimu/LanguageClient-neovim', {
-        \ 'branch': 'next',
-        \ 'do': 'bash install.sh',
-        \ }
+  " Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
+  " Plug 'neoclide/coc-denite'
+  " Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  " Plug 'autozimu/LanguageClient-neovim', {
+  "       \ 'branch': 'next',
+  "       \ 'do': 'bash install.sh',
+  "       \ }
+  " Plug 'junegunn/fzf'
 
   Plug 'jparise/vim-graphql'
   Plug 'othree/html5.vim'
   Plug 'JulesWang/css.vim'
   Plug 'cakebaker/scss-syntax.vim'
   Plug 'othree/yajs.vim'
-  Plug 'othree/javascript-libraries-syntax.vim', { 'for': ['javascript', 'vue'] }
-  Plug 'jason0x43/vim-js-indent', { 'for': ['javascript', 'vue'] }
+  " Plug 'othree/javascript-libraries-syntax.vim', { 'for': ['javascript', 'vue'] }
   Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
   Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
   Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
-  Plug 'pangloss/vim-javascript', { 'for': ['javascript', 'vue'] }
+  Plug 'pangloss/vim-javascript', { 'for': ['javascript'] }
   " Plug 'briancollins/vim-jst'
   Plug 'digitaltoad/vim-pug', { 'for': ['pug', 'vue', 'jade'] }
   " Plug 'bendavis78/vim-polymer'
   Plug 'jwalton512/vim-blade'
   Plug 'leafgarland/typescript-vim', { 'for': ['typescript', 'vue'] }
-  Plug 'Quramy/tsuquyomi'
-  Plug 'nikvdp/ejs-syntax', { 'for': 'ejs' }
+  " Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
+  " Plug 'Quramy/tsuquyomi'
+  " Plug 'nikvdp/ejs-syntax', { 'for': 'ejs' }
   " Plug 'flowtype/vim-flow'
   Plug 'parkr/vim-jekyll'
   Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
   Plug 'stamblerre/gocode', { 'rtp': 'vim', 'do': '~/.vim/plugged/gocode/vim/symlink.sh' }
   Plug 'rust-lang/rust.vim', { 'for': 'rust' }
-  Plug 'racer-rust/vim-racer', { 'for': 'rust' }
+  " Plug 'racer-rust/vim-racer', { 'for': 'rust' }
 
   Plug 'vim-scripts/AnsiEsc.vim'
+  Plug 'jxnblk/vim-mdx-js'
 
   " Operators
   Plug 'kana/vim-operator-user'
@@ -87,8 +92,8 @@ call plug#begin('~/.vim/plugged')
 
   " ctags
   Plug 'alpaca-tc/alpaca_tags'
+  Plug 'amadeus/vim-convert-color-to'
 
-  " Neoxxx
   if has('nvim')
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
     Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -104,6 +109,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'Shougo/neomru.vim'
   Plug 'Shougo/vimproc', {'do': 'make'}
   Plug 'Shougo/neomru.vim'
+  Plug 'Shougo/context_filetype.vim'
 
   Plug 'wokalski/autocomplete-flow'
   Plug 'zchee/deoplete-go', { 'do': 'make'}
@@ -131,6 +137,8 @@ call plug#begin('~/.vim/plugged')
   Plug 'tyru/open-browser.vim'
   Plug 'edkolev/tmuxline.vim'
   Plug 'bronson/vim-visual-star-search'
+  Plug 'osyo-manga/vim-over'
+  Plug 'gorodinskiy/vim-coloresque'
 
   "EditorConfig
   Plug 'editorconfig/editorconfig-vim'
