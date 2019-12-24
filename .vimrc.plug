@@ -143,4 +143,12 @@ call plug#begin('~/.vim/plugged')
   "EditorConfig
   Plug 'editorconfig/editorconfig-vim'
 
+  "workaround
+  Plug 'bfredl/nvim-miniyank'
+
+  "ruby
+  Plug 'ruby-formatter/rufo-vim'
+
+  Plug 'elzr/vim-json'
+
 call plug#end()
