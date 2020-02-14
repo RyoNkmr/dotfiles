@@ -254,7 +254,11 @@ endfunction
 
 " disable folding markdown
 let g:vim_markdown_folding_disabled = 1
+let g:vim_markdown_frontmatter=1
+let g:vim_markdown_toml_frontmatter=1
+let g:vim_markdown_json_frontmatter=0
 let g:vim_markdown_conceal = 0
+let g:vim_markdown_conceal_code_blocks = 0
 
 " alpaca
 augroup AlpacaTags
@@ -302,7 +306,7 @@ let g:used_javascript_libs = 'jquery,lo-dash,react,flux,jasmine,chai,vue,ramda,d
 function! GentleBufferDelete()
   if &modified
     echohl ErrorMsg
-    echomsg "No write since last change. Not closing buffe."
+    echomsg "No write since last change. No buffer closed."
     echohl NONE
   else
     let s:total_nr_buffers = len(filter(range(1, bufnr('$')), 'buflisted(v:val)'))
@@ -449,6 +453,7 @@ let g:ale_fixers = {
       \   'vue': ['prettier', 'eslint'],
       \   'ruby': ['rubocop'],
       \   'go': ['goimports'],
+      \   'yaml': ['prettier'],
       \   'markdown': ['prettier']
       \}
 
@@ -586,4 +591,3 @@ map P <Plug>(miniyank-autoPut)
 " Enable rufo (RUby FOrmat)
 let g:rufo_auto_formatting = 1
 
-let g:vim_json_syntax_conceal = 0

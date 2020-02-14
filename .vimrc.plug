@@ -40,6 +40,7 @@ call plug#begin('~/.vim/plugged')
   " Plug 'othree/javascript-libraries-syntax.vim', { 'for': ['javascript', 'vue'] }
   Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
   Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
+  Plug 'godlygeek/tabular'
   Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
   Plug 'pangloss/vim-javascript', { 'for': ['javascript'] }
   " Plug 'briancollins/vim-jst'

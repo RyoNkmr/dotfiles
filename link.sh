@@ -12,6 +12,7 @@ ln -s ~/dotfiles/.alacritty.yml ~/.alacritty.yml
 
 # for neovim
 mkdir -p ~/.config
+mkdir -p ~/.vim
 ln -s ~/.vim ~/.config/nvim
 ln -s ~/.vimrc ~/.config/nvim/init.vim
 

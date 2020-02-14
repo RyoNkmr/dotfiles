@@ -501,3 +501,9 @@ if [ -f ~/.gnupg/.gpg-agent-info ] && [ -n "$(pgrep gpg-agent)" ]; then
 else
     eval $(gpg-agent --daemon)
 fi
+
+
+# zsh-kubectl-prompt
+autoload -U colors; colors
+source /usr/local/etc/zsh-kubectl-prompt/kubectl.zsh
+RPROMPT='%{$fg[$PCOLOR]%}($ZSH_KUBECTL_PROMPT)%{$reset_color%}'
