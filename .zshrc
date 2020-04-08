@@ -483,6 +483,7 @@ alias -g gsd='git_delete_squashed'
 alias -g gdc='git diff --cached'
 alias -g gs='git switch'
 alias -g gsm='git switch master'
+alias -g grs='git restore --staged'
 
 alias -g reload='exec $SHELL -l'
 

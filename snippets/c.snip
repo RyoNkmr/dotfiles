@@ -1,0 +1,29 @@
+snippet     fprint_noarguments
+abbr        fpnoargs
+  if (argc < 2) {
+    fprintf(stderr, "%s: no argments\n", argv[0]);
+    exit(1);
+  }
+
+snippet     fprint_wronarguments
+abbr        fpwrongargs
+  if (argc != 3) {
+    fprintf(stderr, "%s: wrong argments\n", argv[0]);
+    exit(1);
+  }
+
+snippet     iferr
+  if (${1}(${2}) < 0) {
+    perror(${3});
+    exit(1);
+  }
+
+snippet     stdio
+  #include <stdio.h>
+snippet     stdlib
+  #include <stdlib.h>
+snippet     stat
+  #include <sys/stat.h>
+  #include <sys/types.h>
+snippet     unistd
+  #include <unistd.h>

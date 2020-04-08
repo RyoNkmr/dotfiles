@@ -15,5 +15,6 @@ mkdir -p ~/.config
 mkdir -p ~/.vim
 ln -s ~/.vim ~/.config/nvim
 ln -s ~/.vimrc ~/.config/nvim/init.vim
+ln -s ~/dotfiles/snippets ~/.vim/snippets
 
 ln -s ~/dotfiles/.ignore ~/.config/.ignore
