@@ -1,16 +1,16 @@
-snippet nonamefunction
-alias nn
-  (${1}) => {
-    ${2}
-  }
+snippet import
+alias im
+  import {${2}} from '${1}';
 
 snippet consolelog:test
-alias cot
+alias log
+  // eslint-disable-next-line no-console
   console.log(${1:'test'});
 
-snippet alert:test
-alias alt
-  alert(${1:'test'});
+snippet consoleerror:test
+alias err
+  // eslint-disable-next-line no-console
+  console.error(${1:'test'});
 
 snippet class
 alias cls
@@ -19,41 +19,18 @@ alias cls
     }
   }
 
-snippet bindevents
-alias be
-  private bindEvents () : void {
-  }
-
-snippet lodash:map
-alias map
-  _.map(${1:items}, (${2:item}) => {
-    ${3}
-  })
-
-snippet lodash:each
-alias each
-  _.each(${1:items}, (${2:item}) => {
-    ${3}
-  })
-
-snippet let
-alias l
-  let ${1:name} = ${2:value};${3}
-
-snippet for
-alias f
-  for (let i = 0; i < ${1:items}.length; i++) {
-    ${2}
-  }
+snippet const
+alias c
+  const ${1:name} = ${2:value};${3}
 
 snippet todo
 alias td
-  // TODO(thrbrd) ${1}
+  // TODO: ${1} (RyoNkmr)
 
 snippet note
 alias nt
-  // NOTE(thrbrd) ${1}
+  // NOTE: ${1} (RyoNkmr)
 
 snippet fixme
 alias fix
-  // FIXME(thrbrd) ${1}
+  // FIXME: ${1} (RyoNkmr)

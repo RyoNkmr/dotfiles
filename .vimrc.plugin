@@ -1,23 +1,51 @@
 "------------------------------------
 " deopelete
 "------------------------------------
-let g:deoplete#auto_complete_delay = 0
 let g:deoplete#enable_at_startup = 1
-let g:deoplete#enable_ignore_case = 'ignorecase'
-let g:deoplete#enable_camel_case = 0
-let g:deoplete#enable_ignore_case = 0
-let g:deoplete#enable_refresh_always = 0
-let g:deoplete#auto_refresh_delay = 100
-let g:deoplete#enable_smart_case = 1
-let g:deoplete#file#enable_buffer_path = 1
-let g:deoplete#max_list = 10000
-let g:deoplete#omni#input_patterns = {} " Initialize
 let g:deoplete#sources#ternjs#filetypes = [
                 \ 'jsx',
                 \ 'javascript.jsx',
                 \ 'vue',
                 \ '...'
                 \ ]
+let s:default_ignore_sources = ['around', 'dictionary', 'member', 'omni', 'tag', 'ale', 'vim-lsp']
+let s:deoplete_custom_option = {
+      \ 'auto_complete': v:true,
+      \ 'auto_complete_delay': 0,
+      \ 'deoplete#auto_complete_start_length': 1,
+      \ 'auto_refresh_delay': 100,
+      \ 'refresh_always': v:false,
+      \ 'camel_case': v:false,
+      \ 'check_stderr': v:true,
+      \ 'ignore_case': v:true,
+      \ 'ignore_sources': {
+      \   '_': s:default_ignore_sources,
+      \   'c': s:default_ignore_sources+['buffer', 'neosnippet'],
+      \   'cpp': s:default_ignore_sources+['buffer', 'neosnippet'],
+      \   'dockerfile': s:default_ignore_sources,
+      \   'go': s:default_ignore_sources,
+      \   'javascript': s:default_ignore_sources,
+      \   'lua': s:default_ignore_sources,
+      \   'objc': s:default_ignore_sources+['buffer', 'neosnippet'],
+      \   'python': s:default_ignore_sources,
+      \   'rust': s:default_ignore_sources,
+      \   'sh': s:default_ignore_sources,
+      \   'swift': s:default_ignore_sources,
+      \   'typescript': s:default_ignore_sources,
+      \   'yaml': s:default_ignore_sources,
+      \   'yaml.docker-compose': s:default_ignore_sources+['buffer'],
+      \   'zsh': s:default_ignore_sources+['buffer'],
+      \ },
+      \ 'max_list': 10000,
+      \ 'num_processes': -1,
+      \ 'on_insert_enter': v:true,
+      \ 'on_text_changed_i': v:true,
+      \ 'profile': v:false,
+      \ 'prev_completion_mode': 'filter',
+      \ 'skip_multibyte': v:true,
+      \ 'smart_case': v:true,
+      \ 'min_pattern_length': 1,
+      \ }
 
 " inoremap <expr><tab> pumvisible() ? '\<C-n>' :
 "         \ neosnippet#expandable_or_jumpable() ?
@@ -350,7 +378,7 @@ let g:indent_guides_exclude_filetypes = ['help', 'nerdtree', 'tagbar', 'denite',
 " pangloss/vim-javascript
 "------------------------------------
 let g:javascript_plugin_jsdoc = 1
-let g:javascript_plugin_flow = 1
+" let g:javascript_plugin_flow = 1
 
 "------------------------------------
 " vim-airline
@@ -418,7 +446,8 @@ let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
 let g:ale_fix_on_save = 1
 let g:ale_lint_on_enter = 0
 let g:ale_lint_on_text_changed = 'never'
-let g:ale_completion_enabled = 1
+" let g:ale_completion_enabled = 1
+let g:ale_completion_autoimport = 1
 set omnifunc=ale#completion#OmniFunc
 
 " Set this. Airline will handle the rest.
@@ -473,11 +502,6 @@ let g:lightline = {
 
 nnoremap <C-a><C-f> :ALEFix<CR>
 set signcolumn=yes
-
-"------------------------------------
-" mhartington/nvim-typescript
-"------------------------------------
-" let g:nvim_typescript#vue_support = 1
 "
 "------------------------------------
 " vim-vue
@@ -487,36 +511,10 @@ let g:vue_disable_pre_processors = 1
 autocmd FileType vue syntax sync fromstart
 
 "------------------------------------
-" LanguageClient-neovim 
-"------------------------------------
-"
-let g:LanguageClient_serverCommands = {
-    \ 'vue': ['vls'],
-    \ 'html': [],
-    \ 'css': [],
-    \ 'javascript': ['javascript-typescript-stdio'],
-    \ 'typescript': ['javascript-typescript-stdio'],
-    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
-    \ }
-
-let g:LanguageClient_autoStart = 1
-
-"------------------------------------
 " vim-over
 "------------------------------------
 nnoremap <silent> <Space>// :OverCommandLine<CR>%s/
 "
-"------------------------------------
-" vim-go
-"------------------------------------
-let g:go_doc_keywordprg_enabled = 0
-let g:go_def_mapping_enabled = 0
-let g:go_fmt_autosave = 1
-let g:go_highlight_types = 1
-let g:go_highlight_fields = 1
-let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
-
 "------------------------------------
 " switch.vim
 "------------------------------------
@@ -542,16 +540,6 @@ let g:switch_custom_definitions =
   \ ]
 
 map R <Plug>(operator-replace)
-
-" let g:python3_host_prog = system('type pyenv &>/dev/null && echo -n "$(pyenv root)/versions/$(cat $(pyenv root)/version | head -n 1)/bin/python" || echo -n $(which python)')
-au FileType go nmap <silent> <leader>at :GoAddTags<CR>
-au FileType go nmap <silent> <leader>rt :GoRemoveTags<CR>
-au FileType go nmap <silent> <leader>kf :GoKeyify<CR>
-au FileType go nmap <silent> <leader>ie :GoIfErr<CR>
-au FileType go nmap <silent> <leader>ip :GoImpl<CR>
-au FileType go nmap <silent> <leader>if :GoImplements<CR>
-au FileType go nmap <silent> <leader>mv :GoRename<CR>
-au FileType go nmap <silent> <leader>gd :GoDef<CR>
 
 "------------------------------------
 " swap colors
@@ -592,3 +580,8 @@ map P <Plug>(miniyank-autoPut)
 " Enable rufo (RUby FOrmat)
 let g:rufo_auto_formatting = 1
 
+" --------------------------------
+" deoplete-plugins/deoplete-clang
+" --------------------------------
+let g:deoplete#sources#clang#libclang_path = '/Library/Developer/CommandLineTools/usr/lib/libclang.dylib'
+let g:deoplete#sources#clang#clang_header = '/usr/local/opt/llvm/lib/clang'

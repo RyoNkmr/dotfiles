@@ -1,54 +1,17 @@
-snippet clearfix
-alias cf
-  .cf {
-    zoom: 1;
-  }
-  .cf:after {
-    clear: both;
-    content: '';
-    display: block;
-    height: 0;
-    overflow: hidden;
-    visibility: hidden;
-  }
-
-snippet reset
-  * {
-    margin: 0;
-    padding: 0;
-    background: transparent;
-    box-sizing: border-box;
-    font-size: 100%;
-    font-weight: normal;
-    text-decoration: none;
-    vertical-align: baseline;
-  }
-  body {
-    text-size-adjust: 100% !important;
-  }
-  img {
-    vertical-align: top;
-  }
-  main {
-    display: block;
-  }
-  ul, ol {
-    list-style: none;
-  }
-
 snippet fontfamily
 alias ff
   'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', 'MS PGothic', Helvetica, Arial, sans-serif
 
 snippet dummyimage
+alias img
   //placehold.it/100x100/333/fff.png
 
 snippet todo
 alias td
-  // TODO(thrbrd) ${1}
+  // TODO: ${1} (ryonkmr)
 
 snippet blockcomment
-alias bc
+alias co
   // ===================================================================
   // ${1}
   // ===================================================================
@@ -56,4 +19,10 @@ alias bc
 snippet mediaquery
 alias mq
   @media screen and (max-width: 100px) {
+  }
+
+snippet nth-childn2
+alias n2
+  &:nth-child(n + 2) {
+    margin-top: 8px;
   }

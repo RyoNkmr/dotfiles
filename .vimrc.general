@@ -3,7 +3,8 @@ syntax on
 filetype off
 filetype plugin on
 
-colorscheme molokai
+" colorscheme molokai
+colorscheme gruvbox
 set statusline+=%#warningmsg#
 set statusline+=%*
 
@@ -112,10 +113,10 @@ nnoremap <Leader>l :nohlsearch<cr>:diffupdate<cr>:syntax sync fromstart<cr><c-l>
 nnoremap ,eg :edit ~/.vimrc.general<cr>
 nnoremap ,ep :edit ~/.vimrc.plug<cr>
 nnoremap ,el :edit ~/.vimrc.plugin<cr>
+nnoremap ,ez :edit ~/.zshrc<cr>
 
 autocmd FileType vue syntax sync fromstart
 autocmd FileType netrw setl bufhidden=delete
-autocmd BufNewFile,BufRead *.vue setlocal filetype=vue.html.javascript.css
 autocmd BufNewFile,BufRead *.ts set filetype=typescript
 autocmd BufNewFile,BufRead *.tsx set filetype=typescript
 autocmd BufNewFile,BufRead *.mdx set filetype=mdx
@@ -175,6 +176,10 @@ else
   nmap ,cs :let @*=expand("%")<CR>
   nmap ,cl :let @*=expand("%:p")<CR>
 endif
+
+iabbrev dt <C-R>=strftime("%Y/%m/%d")
+iabbrev dtm <C-R>=strftime("%Y/%m/%d %H:%M:%S")
+iabbrev tm <C-R>=strftime("%H:%M:%S")
 
 " netrw
 let g:netrw_liststyle=1

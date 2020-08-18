@@ -2,38 +2,35 @@ snippet require
 alias re
   require('${1}');
 
-snippet alerttest
-alias alt
-  alert(${1:'test'});
-
-snippet hoge
-alias hh
-  console.log(${1:'hoge'});
-
-snippet consoletest
-alias cot
+snippet consolelog:test
+alias log
+  // eslint-disable-next-line no-console
   console.log(${1:'test'});
 
-snippet gulp
-  gulp.task('${1}', function () {
-    ${2}
-  });
+snippet consoleerror:test
+alias err
+  // eslint-disable-next-line no-console
+  console.error(${1:'test'});
+
+snippet class
+alias cls
+  class ${1:ClassName} {
+    constructor () {
+    }
+  }
+
+snippet const
+alias c
+  const ${1:name} = ${2:value};${3}
 
 snippet todo
 alias td
-  // TODO(thrbrd) ${1}
+  // TODO: ${1} (RyoNkmr)
 
-snippet browsersync
-alias bsync
-  gulp.task('webserver:connect', function () {
-    bsync({
-      server: {
-        baseDir: 'dist/'
-      }
-    });
-  });
+snippet note
+alias nt
+  // NOTE: ${1} (RyoNkmr)
 
-snippet constructor
-alias con
-  constructor () {
-  }
+snippet fixme
+alias fix
+  // FIXME: ${1} (RyoNkmr)

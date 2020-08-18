@@ -486,9 +486,11 @@ alias -g gsm='git switch master'
 alias -g grs='git restore --staged'
 
 alias -g reload='exec $SHELL -l'
-
+alias -g erc='vi ~/.zshrc'
 
 export PATH="/usr/local/opt/mysql@5.7/bin:$PATH"
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+export PATH="$PATH:`yarn global bin`" 
 
 # In order for gpg to find gpg-agent, gpg-agent must be running, and there must be an env
 # variable pointing GPG to the gpg-agent socket. This little script, which must be sourced
@@ -508,3 +510,11 @@ fi
 autoload -U colors; colors
 source /usr/local/etc/zsh-kubectl-prompt/kubectl.zsh
 RPROMPT='%{$fg[$PCOLOR]%}($ZSH_KUBECTL_PROMPT)%{$reset_color%}'
+
+source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc
+source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc
+
+# llvm
+export PATH="/usr/local/opt/llvm/bin:$PATH"
+export LDFLAGS="-L/usr/local/opt/llvm/lib"
+export CPPFLAGS="-I/usr/local/opt/llvm/include"

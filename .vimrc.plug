@@ -15,48 +15,39 @@ call plug#begin('~/.vim/plugged')
   " For looks
   Plug 'vim-airline/vim-airline'
   Plug 'vim-airline/vim-airline-themes'
-  Plug 'tomasr/molokai'
+  " Plug 'tomasr/molokai'
+  Plug 'morhetz/gruvbox'
 
   " Unite and unite sources
   Plug 'Shougo/denite.nvim'
   " Plug 'basyura/unite-rails'
 
-  " Syntax
-  Plug 'w0rp/ale'
-  " Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
-  " Plug 'neoclide/coc-denite'
-  " Plug 'neoclide/coc.nvim', {'branch': 'release'}
-  " Plug 'autozimu/LanguageClient-neovim', {
-  "       \ 'branch': 'next',
-  "       \ 'do': 'bash install.sh',
-  "       \ }
-  " Plug 'junegunn/fzf'
+  " lsp
+  Plug 'prabirshrestha/async.vim'
+  Plug 'prabirshrestha/asyncomplete.vim'
+  Plug 'prabirshrestha/asyncomplete-lsp.vim'
+  Plug 'prabirshrestha/vim-lsp'
+  Plug 'mattn/vim-lsp-settings'
+  Plug 'mattn/vim-goimports'
 
+  Plug 'w0rp/ale'
+
+  Plug 'Shougo/context_filetype.vim' | Plug 'osyo-manga/vim-precious'
   Plug 'jparise/vim-graphql'
   Plug 'othree/html5.vim'
   Plug 'JulesWang/css.vim'
   Plug 'cakebaker/scss-syntax.vim'
   Plug 'othree/yajs.vim'
-  " Plug 'othree/javascript-libraries-syntax.vim', { 'for': ['javascript', 'vue'] }
   Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
   Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
   Plug 'godlygeek/tabular'
   Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
   Plug 'pangloss/vim-javascript', { 'for': ['javascript'] }
-  " Plug 'briancollins/vim-jst'
   Plug 'digitaltoad/vim-pug', { 'for': ['pug', 'vue', 'jade'] }
-  " Plug 'bendavis78/vim-polymer'
   Plug 'jwalton512/vim-blade'
   Plug 'leafgarland/typescript-vim', { 'for': ['typescript', 'vue'] }
-  " Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
-  " Plug 'Quramy/tsuquyomi'
-  " Plug 'nikvdp/ejs-syntax', { 'for': 'ejs' }
-  " Plug 'flowtype/vim-flow'
   Plug 'parkr/vim-jekyll'
-  Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-  Plug 'stamblerre/gocode', { 'rtp': 'vim', 'do': '~/.vim/plugged/gocode/vim/symlink.sh' }
   Plug 'rust-lang/rust.vim', { 'for': 'rust' }
-  " Plug 'racer-rust/vim-racer', { 'for': 'rust' }
 
   Plug 'vim-scripts/AnsiEsc.vim'
   Plug 'jxnblk/vim-mdx-js'
@@ -85,7 +76,6 @@ call plug#begin('~/.vim/plugged')
   Plug 'haya14busa/incsearch-fuzzy.vim'
   Plug 'haya14busa/incsearch-migemo.vim', { 'do': 'brew install cmigemo' }
   Plug 'haya14busa/incsearch-easymotion.vim'
-  " Plug 'tpope/vim-rails'
   Plug 'posva/vim-vue'
 
   " indent guides
@@ -104,6 +94,8 @@ call plug#begin('~/.vim/plugged')
     Plug 'roxma/nvim-yarp'
     Plug 'roxma/vim-hug-neovim-rpc'
   endif
+  Plug 'lighttiger2505/deoplete-vim-lsp'
+  Plug 'Shougo/neoinclude.vim'
 
   Plug 'Shougo/neosnippet'
   Plug 'Shougo/neosnippet-snippets'
@@ -113,12 +105,11 @@ call plug#begin('~/.vim/plugged')
   Plug 'Shougo/context_filetype.vim'
 
   Plug 'wokalski/autocomplete-flow'
-  Plug 'zchee/deoplete-go', { 'do': 'make'}
-  Plug 'zchee/deoplete-zsh'
-  " Plug 'landaire/deoplete-swift'
-  Plug 'HerringtonDarkholme/yats.vim'
+  Plug 'deoplete-plugins/deoplete-go', { 'do': 'make'}
+  Plug 'deoplete-plugins/deoplete-zsh'
+  Plug 'deoplete-plugins/deoplete-jedi'
+  Plug 'deoplete-plugins/deoplete-clang'
   Plug 'padawan-php/deoplete-padawan', { 'do': 'composer install' }
-  Plug 'zchee/deoplete-jedi'
 
   " For git
   Plug 'tpope/vim-fugitive'
