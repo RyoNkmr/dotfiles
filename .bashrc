@@ -4,3 +4,5 @@ export PATH=$HOME/.nodebrew/current/bin:$PATH
 export PATH=$HOME/.nodebrew/current/npm/bin:$PATH
 export PATH=$HOME/.npm/bin:$PATH
 export PATH=$HOME/.nodebrew/current/bin:$PATH
+
+complete -C /usr/local/bin/terraform terraform

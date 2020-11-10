@@ -109,6 +109,9 @@ nnoremap - <C-x>
 " clear window
 nnoremap <Leader>l :nohlsearch<cr>:diffupdate<cr>:syntax sync fromstart<cr><c-l>
 
+" open filer
+nnoremap <silent> <Space>of :<C-u>!open %:h<CR>
+
 " open .vimrc
 nnoremap ,eg :edit ~/.vimrc.general<cr>
 nnoremap ,ep :edit ~/.vimrc.plug<cr>
@@ -118,7 +121,8 @@ nnoremap ,ez :edit ~/.zshrc<cr>
 autocmd FileType vue syntax sync fromstart
 autocmd FileType netrw setl bufhidden=delete
 autocmd BufNewFile,BufRead *.ts set filetype=typescript
-autocmd BufNewFile,BufRead *.tsx set filetype=typescript
+autocmd BufNewFile,BufRead *.tsx let b:tsx_ext_found = 1
+autocmd BufNewFile,BufRead *.tsx set filetype=typescript.tsx
 autocmd BufNewFile,BufRead *.mdx set filetype=mdx
 
 " syntax .ejs

@@ -87,8 +87,8 @@ xmap <C-k>     <Plug>(neosnippet_expand_target)
 " \ pumvisible() ? "\<C-n>" :
 " \ neosnippet#expandable_or_jumpable() ?
 " \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+" smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+" \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
 " For conceal markers.
 if has('conceal')
@@ -247,7 +247,8 @@ function! s:config_customincsearch() abort
 endfunction
 
 " vim-rooter
-let g:rooter_patterns = ['.git/']
+let g:rooter_patterns = ['.git']
+let g:rooter_change_directory_for_non_project_files = 'home'
 
 " vim-ref
 " vim-ref のバッファを q で閉じられるようにする
@@ -301,30 +302,6 @@ augroup AlpacaTags
 augroup END
 
 let g:previm_open_cmd = 'open -a Google\ Chrome'
-
-"------------------------------------
-" Unite-rails.vim
-"------------------------------------
-"{{{
-" function! UniteRailsSetting()
-"   nnoremap <buffer><C-H><C-H><C-H>  :<C-U>Unite rails/view<CR>
-"   nnoremap <buffer><C-H><C-H>       :<C-U>Unite rails/model<CR>
-"   nnoremap <buffer><C-H>            :<C-U>Unite rails/controller<CR>
-"
-"   nnoremap <buffer><C-H>c           :<C-U>Unite rails/config<CR>
-"   nnoremap <buffer><C-H>s           :<C-U>Unite rails/spec<CR>
-"   nnoremap <buffer><C-H>m           :<C-U>Unite rails/db -input=migrate<CR>
-"   nnoremap <buffer><C-H>l           :<C-U>Unite rails/lib<CR>
-"   nnoremap <buffer><expr><C-H>g     ':e '.b:rails_root.'/Gemfile<CR>'
-"   nnoremap <buffer><expr><C-H>r     ':e '.b:rails_root.'/config/routes.rb<CR>'
-"   nnoremap <buffer><expr><C-H>se    ':e '.b:rails_root.'/db/seeds.rb<CR>'
-"   nnoremap <buffer><C-H>ra          :<C-U>Unite rails/rake<CR>
-"   nnoremap <buffer><C-H>h           :<C-U>Unite rails/heroku<CR>
-" endfunction
-" aug MyAutoCmd
-"   au User Rails call UniteRailsSetting()
-" aug END
-"}}}
 
 "------------------------------------
 " othree/javascript-libraries-syntax.vim
@@ -441,7 +418,7 @@ let g:tmuxline_theme = g:airline_theme
 " ale
 "------------------------------------
 
-let g:ale_enabled = 1
+" let g:ale_enabled = 1
 let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
 let g:ale_fix_on_save = 1
 let g:ale_lint_on_enter = 0
@@ -507,7 +484,6 @@ set signcolumn=yes
 " vim-vue
 "------------------------------------
 
-let g:vue_disable_pre_processors = 1
 autocmd FileType vue syntax sync fromstart
 
 "------------------------------------
@@ -585,3 +561,48 @@ let g:rufo_auto_formatting = 1
 " --------------------------------
 let g:deoplete#sources#clang#libclang_path = '/Library/Developer/CommandLineTools/usr/lib/libclang.dylib'
 let g:deoplete#sources#clang#clang_header = '/usr/local/opt/llvm/lib/clang'
+" --------------------------------
+" kana/vim-operator-replace
+" --------------------------------
+" map <silent>r <Plug>(operator-replace)
+
+" --------------------------------
+" jremmen/vim-ripgrep
+" --------------------------------
+let g:rg_command = 'rg --vimgrep -S'
+
+" global find/replace inside working directory
+function! FindReplace()
+  " figure out which directory we're in
+  " ask for patterns
+  let dir = FindRootDirectory()
+  call inputsave()
+  let find = input('find in "' . dir . '"' . ' pattern: ')
+  call inputrestore()
+  let replace = input('find in "' . dir . '"' . ' replacement: ')
+  call inputrestore()
+  " are you sure?
+  let confirm = input('WARNING: About to replace ' . find . ' with ' . replace . ' in ' . dir . '/**/* (y/n):')
+  " clear echoed message
+  :redraw
+  if confirm == 'y'
+    " find with rigrep (populate quickfix )
+    :silent exe 'Rg ' . find
+    " use cfdo to substitute on all quickfix files
+    :silent exe 'cdo %s/' . find . '/' . replace . '/ge | update'
+    " close quickfix window
+    :silent exe 'cclose'
+    :echom('Replaced ' . find . ' with ' . replace . ' in all files in ' . dir )
+  else
+    :echom('Find/Replace Aborted :(')
+    return
+  endif
+endfunction
+
+nnoremap <Leader>rr :call FindReplace()<CR>
+
+let g:terraform_fmt_on_save = 1
+
+let g:lsp_settings = {
+\ 'typescript-language-server': { 'cmd': [&shell, &shellcmdflag, 'typescript-language-server --stdio']}
+\}

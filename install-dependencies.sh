@@ -17,3 +17,6 @@ go get -u github.com/stamblerre/gocode
 
 # tmux
 gem install tmuxinator
+
+# prezto
+git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"

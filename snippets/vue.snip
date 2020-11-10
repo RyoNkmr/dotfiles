@@ -1,12 +1,52 @@
 snippet scaffoldtsscss
 alias scaffold
-<template>
-</template>
+  <template>
+    ${3}
+  </template>
 
-<script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({})
-</script>
+  <script lang="ts">
+  import Vue from 'vue'
 
-<style lang="scss" module>
-</style>
+  export default Vue.extend({
+    props: {
+      ${1}
+    },
+  })
+  </script>
+
+  <style lang="scss" module>
+    ${3}
+  </style>
+
+snippet scaffoldcomscss
+alias scaffold-ca
+  <template>
+    ${3}
+  </template>
+
+  <script lang="ts">
+  import { defineComponent } from '@nuxt/composition-api'
+
+  export default defineComponent({
+    props: {
+      ${1}
+    },
+    setup() {
+      ${2}
+    },
+  })
+  </script>
+
+  <style lang="scss" module>
+    ${4}
+  </style>
+
+snippet script_ts_composition-api
+alias ts-composition
+  <script lang="ts">
+  import { defineComponent } from '@nuxtjs/composition-api'
+
+  export default defineComponent({
+    ${1}
+  })
+  </script>

@@ -18,8 +18,7 @@ export MANPAGER=/usr/local/bin/vimpager
 # -------------------------------------
 
 ## 補完機能の強化
-autoload -U compinit
-compinit
+autoload -U compinit && compinit
 
 ## 入力しているコマンド名が間違っている場合にもしかして：を出す。
 unsetopt correct
@@ -74,9 +73,11 @@ REPORTTIME=3
 # export PATH=$PATH:$M2_HOME/bin 
 
 # 重複する要素を自動的に削除
-eval "$(anyenv init -)"
 
 typeset -U path cdpath fpath manpath
+
+# workaround https://github.com/zplug/zplug/issues/477#issuecomment-444541655
+fpath=( /usr/local/Cellar/zsh/5.8/share/zsh/functions $fpath)
 
 path=(
     $HOME/bin(N-/)
@@ -519,3 +520,13 @@ source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc
 export PATH="/usr/local/opt/llvm/bin:$PATH"
 export LDFLAGS="-L/usr/local/opt/llvm/lib"
 export CPPFLAGS="-I/usr/local/opt/llvm/include"
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /usr/local/bin/terraform terraform
+
+# back to root
+alias -g proot='cd $(git rev-parse --show-toplevel)'
+
+alias -g ez='vi ~/.zshrc'
+
+eval "$(anyenv init -)"
